@@ -10,3 +10,19 @@
  * This can be solved either with a LEFT JOIN or with the NOT IN operator.
  * You may choose whichever solution makes the most sense to you.
  */
+
+SELECT title
+FROM film
+INNER JOIN inventory USING(film_id)
+WHERE title NOT IN (
+	SELECT title FROM film
+	INNER JOIN inventory USING(film_id)
+	INNER JOIN rental USING(inventory_id)
+	INNER JOIN customer USING(customer_id)
+	INNER JOIN address USING(address_id)
+	INNER JOIN city USING(city_id)
+	INNER JOIN country USING(country_id)
+	WHERE country_id = 103
+)
+GROUP BY (title)
+ORDER BY title;
